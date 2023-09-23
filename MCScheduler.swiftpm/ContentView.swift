@@ -6,14 +6,14 @@ struct ContentView: View {
             CircleImage()
             
             VStack {
-                Text("Hello, class!")
-                    .font(.largeTitle)
-                    .foregroundColor(.red)
-                HStack {
-                    Text("Intro to Playground").font(.body)
-                    Spacer()
-                    Text("Xcode").font(.subheadline)
-                    Text("This a new Text Field that I made 9/23.")
+                Text("My Scheduler APP")
+                /*
+                 Add app name
+                 new page with:
+                    - TextField
+                    - SaveButton
+                    - Ignore/cancel button
+                 */
                 }
             }
             .padding()
