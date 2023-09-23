@@ -13,6 +13,7 @@ struct ContentView: View {
                     Text("Intro to Playground").font(.body)
                     Spacer()
                     Text("Xcode").font(.subheadline)
+                    Text("Sudeep Help Me!!!")
                 }
             }
             .padding()
