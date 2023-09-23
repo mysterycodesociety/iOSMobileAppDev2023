@@ -13,6 +13,7 @@ struct ContentView: View {
                     Text("Intro to Playground").font(.body)
                     Spacer()
                     Text("Xcode").font(.subheadline)
+                    Text("This a new Text Field that I made 9/23.")
                 }
             }
             .padding()
