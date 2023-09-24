@@ -6,7 +6,10 @@ struct ContentView: View {
             CircleImage()
             
             VStack {
-                Text("My Scheduler APP")
+                Text("Remind Me!").font(.largeTitle.bold())
+                Button("Start") { //go to main page of the app
+                }
+                .padding(.top, 4.0).font(.largeTitle)
                 /*
                  Add app name
                  new page with:
@@ -19,4 +22,4 @@ struct ContentView: View {
             .padding()
         }
     }
-}
+
