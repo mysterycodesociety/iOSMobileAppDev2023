@@ -14,9 +14,36 @@ struct ContentView: View {
                  - SaveButton
                  - Ignore/Cancel button
                  */
+                HStack {
+                    Button("Next") {
+                        /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
+                    }
+                    .foregroundColor(Color.white)
+                    .padding()
+                    .background(Color.black)
+                    .cornerRadius(10)
+                    
+                    }
                 }
+               
             }
             .padding()
         }
     }
+
+/* Button("Save") {
+    /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
 }
+.foregroundColor(Color.white)
+.padding()
+.background(Color.blue)
+.cornerRadius(10)
+
+Button("Cancel") {
+    /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
+}
+.foregroundColor(Color.white)
+.padding()
+.background(Color.red)
+.cornerRadius(10)
+*/
