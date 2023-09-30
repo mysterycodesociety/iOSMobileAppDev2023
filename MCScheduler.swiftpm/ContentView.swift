@@ -14,6 +14,7 @@ struct ContentView: View {
                 VStack {
                     Button("Next") {
                       // some code
+                    OpenPageTwo()
                     }
                     .frame(width: 81, height: 30)
                     .font(.title)

@@ -46,3 +46,10 @@ struct SecondPage_Previews: PreviewProvider {
         SecondPage()
     }
 }
+
+func OpenPageTwo(){
+    if let window = UIApplication.shared.windows.first{
+        window.rootViewController = UIHostingController(rootView: SecondPage())
+        window.makeKeyAndVisible()
+    }
+}
