@@ -26,6 +26,7 @@ struct SecondPage: View {
                 
                 Button("Cancel") {
                   // some code
+                    GoBack()
                 }
                 .frame(width: 80, height: 30)
                 .font(.body)
@@ -35,9 +36,7 @@ struct SecondPage: View {
             }
             .buttonStyle(.bordered)
 
-        }.cornerRadius(10)
-        
-        
+        }
     }
 }
 
@@ -48,8 +47,35 @@ struct SecondPage_Previews: PreviewProvider {
 }
 
 func OpenPageTwo(){
-    if let window = UIApplication.shared.windows.first{
-        window.rootViewController = UIHostingController(rootView: SecondPage())
-        window.makeKeyAndVisible()
-    }
+    //        getting the all scenes
+            let scenes = UIApplication.shared.connectedScenes
+    //        getting windowScene from scenes
+            let windowScene = scenes.first as? UIWindowScene
+    //        getting window from windowScene
+            let window = windowScene?.windows.first
+    //        getting the root view controller
+    _ = window?.rootViewController
+    //        changing the root view controller
+            window?.rootViewController = UIHostingController(rootView: SecondPage())
+    //if let window = UIWindowScene.windows.first{
+    //if let window = UIApplication.shared.windows.first{
+        //window.rootViewController = UIHostingController(rootView: SecondPage())
+        window?.makeKeyAndVisible()
+}
+
+func GoBack(){
+    //        getting the all scenes
+            let scenes = UIApplication.shared.connectedScenes
+    //        getting windowScene from scenes
+            let windowScene = scenes.first as? UIWindowScene
+    //        getting window from windowScene
+            let window = windowScene?.windows.first
+    //        getting the root view controller
+    _ = window?.rootViewController
+    //        changing the root view controller
+            window?.rootViewController = UIHostingController(rootView: ContentView())
+    //if let window = UIWindowScene.windows.first{
+    //if let window = UIApplication.shared.windows.first{
+        //window.rootViewController = UIHostingController(rootView: SecondPage())
+        window?.makeKeyAndVisible()
 }
