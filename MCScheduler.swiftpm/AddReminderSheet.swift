@@ -84,6 +84,10 @@ class AppInformation: ObservableObject{
             UserDefaults.standard.set(encodedData, forKey: "REMINDERS")
         }
     }
+    
+    func deleteReminder(offsets: IndexSet){
+        arrayReminders.remove(atOffsets: offsets)
+    }
 }
 
 struct makeReminder: Codable, Identifiable{

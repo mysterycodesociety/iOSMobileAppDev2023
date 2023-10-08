@@ -24,15 +24,15 @@ struct MainPage: View {
                 
             }
             VStack{
-                ScrollView{
+                //ScrollView{
                     if(appInfo.arrayReminders.count>0){
-                        
-                        
+                        List{
+                            Section{
                         ForEach(0..<appInfo.arrayReminders.count, id:\.self){
                             i in
                             let item = appInfo.arrayReminders[i]
-                            List{
-                                Section{
+                            
+                                
                                     VStack(alignment: .leading){
                                         Text(item.title).font(.title).fontWeight(.bold)
                                         Text("Due Date: \(Date(timeIntervalSince1970: item.dueDate).formatted(date: .abbreviated, time: .shortened))").font(.headline).fontWeight(.bold).foregroundColor(Color.yellow)
@@ -40,18 +40,23 @@ struct MainPage: View {
                                     }
                                     
                                     //
-                                }
-                            }.frame(width: 370, height: 100).cornerRadius(15)
+                        }.onDelete(perform:  appInfo.deleteReminder
+                        )
+                            }
+                        }.onAppear{
+                            getItems()
                         }
                     }
                     else{
-                        Text("Empty").font(.largeTitle).foregroundColor(Color.gray).opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/).offset(CGSize(width: 0, height: 100))
+                        ScrollView{
+                            Text("Empty").font(.largeTitle).foregroundColor(Color.gray).opacity(0.8).offset(CGSize(width: 0.0, height: 100.0))
+                            
+                        }
+//                        Text("Empty").font(.largeTitle).foregroundColor(Color.gray).padding(.bottom, 660.0).opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/).offset(CGSize(width: 0, height: 100))
                     }
                     
-                }
-                .padding(.vertical, 20.0).onAppear{
-                    getItems()
-                }
+                //}
+                //.padding(.vertical, 20.0)
             }
         }
         
