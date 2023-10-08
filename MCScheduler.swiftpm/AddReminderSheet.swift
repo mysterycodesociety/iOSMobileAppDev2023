@@ -9,20 +9,41 @@ import SwiftUI
 
 struct AddReminderSheet: View{
     @Environment(\.dismiss) private var dismiss
-    
-    @State private var text = "";
+    @EnvironmentObject var appInfo: AppInformation
+    @State private var showingAlert: Bool = false
     var body: some View{
+        
         ZStack{
             VStack{
                 Form{
-                    TextField("Type your reminder", text: $text)
-                    DatePicker(selection: .constant(Date()), label: {Text("Date")})
+                    TextField("Type your reminder", text: $appInfo.savedReminder)
+                    DatePicker(selection: $appInfo.savedDate, label: {Text("Date")})
                 }
                 
             }
             VStack{
                 HStack{
-                    Button("Save") { print("Save Button Tapped!") }
+                    Button("Save") {
+                        if(appInfo.arrayRemind.contains(appInfo.savedReminder) && appInfo.arrayDate.contains(appInfo.savedDate)){
+                            showingAlert = true;
+                        }
+                        else{
+                            if(appInfo.savedReminder != ""){
+                                showingAlert = false;
+                                appInfo.arrayRemind.append(appInfo.savedReminder);
+                                appInfo.arrayDate.append(appInfo.savedDate)
+                                dismiss()
+                            }
+                            }
+                    }.alert(isPresented: $showingAlert){
+                        Alert(title: Text("Duplicate Reminder"), message: Text("You already have this reminder. Are you sure you want to add this?"), primaryButton: .cancel(), secondaryButton: .default(Text("Yes")){
+                            if(appInfo.savedReminder != ""){
+                                appInfo.arrayRemind.append(appInfo.savedReminder);
+                                appInfo.arrayDate.append(appInfo.savedDate)
+                                dismiss()
+                            }
+                        })
+                    }
                         .frame(width: 115, height: 28).foregroundColor(Color.white).background(Color.blue).cornerRadius(9).padding(4)
                     
                     Button("Cancel") { dismiss() }
@@ -32,4 +53,11 @@ struct AddReminderSheet: View{
         }
     }
     
+}
+
+class AppInformation: ObservableObject{
+    @Published  var arrayRemind: [String] = [];
+    @Published  var arrayDate: [Date] = [];
+    @Published  var savedReminder = "";
+    @Published  var savedDate = Date();
 }

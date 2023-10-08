@@ -1,35 +1,46 @@
 import SwiftUI
 
 struct MainPage: View {
+    
+    @EnvironmentObject var appInfo: AppInformation
     @State private var shouldPresentSheet = false;
     var body: some View {
         
         VStack{
             HStack{
                 Text("Your Reminders").font(.largeTitle).offset(CGSize(width: -40.0, height: 0.0))
-                Button("+") { shouldPresentSheet.toggle() }.font(.largeTitle).offset(CGSize(width: 40.0, height: 0.0))
+                Button{ shouldPresentSheet.toggle() }label: {
+                    Image(systemName: "plus")
+                }.frame(width: 30, height: 30).foregroundColor(Color.white).background(Color.blue).cornerRadius(15).offset(CGSize(width: 40.0, height: 0.0))
                     .sheet(isPresented: $shouldPresentSheet) {
-                       
-                                   } content: {
-                                       AddReminderSheet()
+                        if #available(iOS 16.4, *) {
+                                AddReminderSheet()
+                                .presentationDetents([.medium]).presentationCornerRadius(9)
+                            } else {
+                                AddReminderSheet()
+                            }
                                    }
                     
             }
             VStack{
                 ScrollView{
-                    Rectangle().foregroundColor(.blue).frame(width:350, height: 200).cornerRadius(12.0)
-                    Rectangle().foregroundColor(.blue).frame(width:350, height: 200).cornerRadius(12.0)
-                }
-            }
-            VStack{
-                HStack{
-                    Button("Save") { print("Save Button Tapped!") }.frame(width: 115, height: 28).foregroundColor(Color.white).background(Color.blue).cornerRadius(9).padding(4)
+                        if(appInfo.arrayRemind.count > 0){
+                            ForEach(0..<appInfo.arrayRemind.count, id: \.self){i in
+                                VStack{
+                                    Text(appInfo.arrayRemind[i])
+                                    
+                                    Text(appInfo.arrayDate[i].formatted())
+                                }.frame(width: 300, height: 100).background(Color.blue).cornerRadius(8)
+                            }
+                        }
+                    else{
+                        Text("Empty").font(.largeTitle).foregroundColor(Color.gray).opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/).offset(CGSize(width: 0, height: 100))
+                    }
                     
-                    Button("Cancel") { print("Cancel Button Tapped!") }.frame(width: 115, height: 28).foregroundColor(Color.white).background(Color.red).cornerRadius(9).padding(5)
                 }
+                .padding(.top, 20.0)
             }
-            
-            
         }
     }
 }
+

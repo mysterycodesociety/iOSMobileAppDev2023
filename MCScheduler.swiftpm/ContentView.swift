@@ -1,12 +1,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isActive = false;
-    @State private var size = 0.8;
-    @State private var opacity = 0.5;
+    @State  var isActive = false;
+    @State  var size = 0.8;
+    @State  var opacity = 0.5;
     var body: some View {
         if(isActive){
-            MainPage();
+            MainPage().environmentObject(AppInformation());
         }
         else{
             VStack {
