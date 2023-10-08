@@ -36,13 +36,13 @@ struct AddReminderSheet: View{
                                 let item = makeReminder(id: newId, title: appInfo.savedReminder, dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
                                 
                                 appInfo.arrayReminders.append(item)
-                             
+                                
                                 dismiss()
                                 
                                 appInfo.savedReminder = ""
                                 appInfo.savedDate = Date()
                             }
-                            }
+                        }
                     }.alert(isPresented: $showingAlert){
                         Alert(title: Text("Duplicate Reminder"), message: Text("You already have this reminder. Are you sure you want to add this?"), primaryButton: .cancel(), secondaryButton: .default(Text("Yes")){
                             if(appInfo.savedReminder != ""){
@@ -51,11 +51,11 @@ struct AddReminderSheet: View{
                                 
                                 appInfo.arrayReminders.append(item)
                                 
-                              
+                                
                             }
                         })
                     }
-                        .frame(width: 115, height: 28).foregroundColor(Color.white).background(Color.blue).cornerRadius(9).padding(4)
+                    .frame(width: 115, height: 28).foregroundColor(Color.white).background(Color.blue).cornerRadius(9).padding(4)
                     
                     Button("Cancel") { dismiss() }
                         .frame(width: 115, height: 28).foregroundColor(Color.white).background(Color.red).cornerRadius(9).padding(5)

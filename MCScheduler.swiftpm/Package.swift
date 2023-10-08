@@ -17,6 +17,7 @@ let package = Package(
             name: "MCScheduler",
             targets: ["AppModule"],
             bundleIdentifier: "nallitechnologies.test",
+            teamIdentifier: "WR6RHSU66K",
             displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .movieReel),

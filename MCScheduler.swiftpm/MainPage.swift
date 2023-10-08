@@ -24,45 +24,38 @@ struct MainPage: View {
                 
             }
             VStack{
-                //ScrollView{
-                    if(appInfo.arrayReminders.count>0){
-                        List{
-                            Section{
-                        ForEach(0..<appInfo.arrayReminders.count, id:\.self){
-                            i in
-                            let item = appInfo.arrayReminders[i]
-                            
+                if(appInfo.arrayReminders.count>0){
+                    List{
+                        Section{
+                            ForEach(0..<appInfo.arrayReminders.count, id:\.self){
+                                i in
+                                let item = appInfo.arrayReminders[i]
                                 
-                                    VStack(alignment: .leading){
-                                        Text(item.title).font(.title).fontWeight(.bold)
-                                        Text("Due Date: \(Date(timeIntervalSince1970: item.dueDate).formatted(date: .abbreviated, time: .shortened))").font(.headline).fontWeight(.bold).foregroundColor(Color.yellow)
-                                        Text("Created Date: \(Date(timeIntervalSince1970: item.createdDate).formatted(date: .abbreviated, time: .shortened))")
-                                    }
-                                    
-                                    //
-                        }.onDelete(perform:  appInfo.deleteReminder
-                        )
-                            }
-                        }.onAppear{
-                            getItems()
+                                
+                                VStack(alignment: .leading){
+                                    Text(item.title).font(.title).fontWeight(.bold)
+                                    Text("Due Date: \(Date(timeIntervalSince1970: item.dueDate).formatted(date: .abbreviated, time: .shortened))").font(.headline).fontWeight(.bold).foregroundColor(Color.yellow)
+                                    Text("Created Date: \(Date(timeIntervalSince1970: item.createdDate).formatted(date: .abbreviated, time: .shortened))")
+                                }
+                            }.onDelete(perform:  appInfo.deleteReminder
+                            )
                         }
                     }
-                    else{
-                        ScrollView{
-                            Text("Empty").font(.largeTitle).foregroundColor(Color.gray).opacity(0.8).offset(CGSize(width: 0.0, height: 100.0))
-                            
-                        }
-//                        Text("Empty").font(.largeTitle).foregroundColor(Color.gray).padding(.bottom, 660.0).opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/).offset(CGSize(width: 0, height: 100))
+                }
+                else{
+                    ScrollView{
+                        Text("Empty").font(.largeTitle).foregroundColor(Color.gray).opacity(0.8).offset(CGSize(width: 0.0, height: 100.0))
+                        
                     }
-                    
-                //}
-                //.padding(.vertical, 20.0)
+                }
+            }.onAppear{
+                getItems()
             }
         }
         
     }
     func getItems(){
-        guard 
+        guard
             let reminderData = UserDefaults.standard.data(forKey: "REMINDERS"),
             let savedItems = try? JSONDecoder().decode([makeReminder].self, from: reminderData)
         else {return}

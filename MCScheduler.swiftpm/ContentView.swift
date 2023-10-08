@@ -16,11 +16,11 @@ struct ContentView: View {
                     /*
                      Add app name
                      new page with:
-                        - TextField
-                        - SaveButton
-                        - Ignore/cancel button
+                     - TextField
+                     - SaveButton
+                     - Ignore/cancel button
                      */
-                    }
+                }
                 .scaleEffect(size)
                 .opacity(opacity)
                 .onAppear{
@@ -29,19 +29,19 @@ struct ContentView: View {
                         self.opacity = 1.0;
                     }
                 }
-                }
-                .onAppear{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.0){
-                        withAnimation{
-                            self.isActive = true;
-                        }
-                        
+            }
+            .onAppear{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0){
+                    withAnimation{
+                        self.isActive = true;
                     }
+                    
                 }
-        }
-        
+            }
         }
         
     }
+    
+}
 
 
