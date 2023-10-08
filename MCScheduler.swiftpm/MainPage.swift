@@ -7,6 +7,7 @@ struct MainPage: View {
     var body: some View {
         
         VStack{
+            
             HStack{
                 Text("Your Reminders").font(.largeTitle).fontWeight(.bold).offset(CGSize(width: -38.0, height: 0.0))
                 Button{ shouldPresentSheet.toggle() }label: {
@@ -31,14 +32,15 @@ struct MainPage: View {
                             i in
                             let item = appInfo.arrayReminders[i]
                             List{
-                                VStack(alignment: .leading){
-                                    Text(item.title).font(.title).fontWeight(.bold)
-                                    Text("Due Date: \(Date(timeIntervalSince1970: item.dueDate).formatted(date: .abbreviated, time: .shortened))").font(.headline).fontWeight(.bold).foregroundColor(Color.yellow)
-                                    Text("Created Date: \(Date(timeIntervalSince1970: item.createdDate).formatted(date: .abbreviated, time: .shortened))")
+                                Section{
+                                    VStack(alignment: .leading){
+                                        Text(item.title).font(.title).fontWeight(.bold)
+                                        Text("Due Date: \(Date(timeIntervalSince1970: item.dueDate).formatted(date: .abbreviated, time: .shortened))").font(.headline).fontWeight(.bold).foregroundColor(Color.yellow)
+                                        Text("Created Date: \(Date(timeIntervalSince1970: item.createdDate).formatted(date: .abbreviated, time: .shortened))")
+                                    }
+                                    
+                                    //
                                 }
-                                
-                                //
-                                
                             }.frame(width: 370, height: 100).cornerRadius(15)
                         }
                     }
@@ -47,9 +49,20 @@ struct MainPage: View {
                     }
                     
                 }
-                .padding(.vertical, 20.0)
+                .padding(.vertical, 20.0).onAppear{
+                    getItems()
+                }
             }
         }
+        
+    }
+    func getItems(){
+        guard 
+            let reminderData = UserDefaults.standard.data(forKey: "REMINDERS"),
+            let savedItems = try? JSONDecoder().decode([makeReminder].self, from: reminderData)
+        else {return}
+        
+        self.appInfo.arrayReminders = savedItems
     }
 }
 

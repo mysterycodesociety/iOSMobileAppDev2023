@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct AddReminderSheet: View{
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var appInfo: AppInformation
@@ -30,13 +32,11 @@ struct AddReminderSheet: View{
                         else{
                             if(appInfo.savedReminder != ""){
                                 showingAlert = false;
-//                                appInfo.arrayRemind.append(appInfo.savedReminder);
-//                                appInfo.arrayDate.append(appInfo.savedDate)
-                                
                                 let newId = UUID().uuidString
                                 let item = makeReminder(id: newId, title: appInfo.savedReminder, dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
                                 
                                 appInfo.arrayReminders.append(item)
+                             
                                 dismiss()
                                 
                                 appInfo.savedReminder = ""
@@ -46,19 +46,12 @@ struct AddReminderSheet: View{
                     }.alert(isPresented: $showingAlert){
                         Alert(title: Text("Duplicate Reminder"), message: Text("You already have this reminder. Are you sure you want to add this?"), primaryButton: .cancel(), secondaryButton: .default(Text("Yes")){
                             if(appInfo.savedReminder != ""){
-//                                appInfo.arrayRemind.append(appInfo.savedReminder);
-//                                appInfo.arrayDate.append(appInfo.savedDate)
-//                                
-//                                dismiss()
-//                                
-//                                appInfo.savedReminder = ""
-//                                appInfo.savedDate = Date()
                                 let newId = UUID().uuidString
                                 let item = makeReminder(id: newId, title: appInfo.savedReminder, dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
                                 
                                 appInfo.arrayReminders.append(item)
                                 
-                                print(appInfo.arrayReminders)
+                              
                             }
                         })
                     }
@@ -68,7 +61,9 @@ struct AddReminderSheet: View{
                         .frame(width: 115, height: 28).foregroundColor(Color.white).background(Color.red).cornerRadius(9).padding(5)
                 }
             }
+            
         }
+        
     }
     
 }
@@ -78,7 +73,17 @@ class AppInformation: ObservableObject{
     @Published  var arrayDate: [Date] = [];
     @Published  var savedReminder = "";
     @Published  var savedDate = Date();
-    @Published var arrayReminders: [makeReminder] = []
+    @Published var arrayReminders: [makeReminder] = []{
+        didSet{
+            saveReminders()
+        }
+    }
+    
+    func saveReminders(){
+        if let encodedData = try? JSONEncoder().encode(arrayReminders){
+            UserDefaults.standard.set(encodedData, forKey: "REMINDERS")
+        }
+    }
 }
 
 struct makeReminder: Codable, Identifiable{
