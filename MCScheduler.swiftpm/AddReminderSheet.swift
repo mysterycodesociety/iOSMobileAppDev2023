@@ -30,8 +30,13 @@ struct AddReminderSheet: View{
                         else{
                             if(appInfo.savedReminder != ""){
                                 showingAlert = false;
-                                appInfo.arrayRemind.append(appInfo.savedReminder);
-                                appInfo.arrayDate.append(appInfo.savedDate)
+//                                appInfo.arrayRemind.append(appInfo.savedReminder);
+//                                appInfo.arrayDate.append(appInfo.savedDate)
+                                
+                                let newId = UUID().uuidString
+                                let item = makeReminder(id: newId, title: appInfo.savedReminder, dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
+                                
+                                appInfo.arrayReminders.append(item)
                                 dismiss()
                                 
                                 appInfo.savedReminder = ""
@@ -41,13 +46,19 @@ struct AddReminderSheet: View{
                     }.alert(isPresented: $showingAlert){
                         Alert(title: Text("Duplicate Reminder"), message: Text("You already have this reminder. Are you sure you want to add this?"), primaryButton: .cancel(), secondaryButton: .default(Text("Yes")){
                             if(appInfo.savedReminder != ""){
-                                appInfo.arrayRemind.append(appInfo.savedReminder);
-                                appInfo.arrayDate.append(appInfo.savedDate)
+//                                appInfo.arrayRemind.append(appInfo.savedReminder);
+//                                appInfo.arrayDate.append(appInfo.savedDate)
+//                                
+//                                dismiss()
+//                                
+//                                appInfo.savedReminder = ""
+//                                appInfo.savedDate = Date()
+                                let newId = UUID().uuidString
+                                let item = makeReminder(id: newId, title: appInfo.savedReminder, dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
                                 
-                                dismiss()
+                                appInfo.arrayReminders.append(item)
                                 
-                                appInfo.savedReminder = ""
-                                appInfo.savedDate = Date()
+                                print(appInfo.arrayReminders)
                             }
                         })
                     }
@@ -67,7 +78,7 @@ class AppInformation: ObservableObject{
     @Published  var arrayDate: [Date] = [];
     @Published  var savedReminder = "";
     @Published  var savedDate = Date();
-    @Published var arrayReminders = []
+    @Published var arrayReminders: [makeReminder] = []
 }
 
 struct makeReminder: Codable, Identifiable{
@@ -82,6 +93,4 @@ struct makeReminder: Codable, Identifiable{
     }
 }
 
-func newReminder(){
-    
-}
+
