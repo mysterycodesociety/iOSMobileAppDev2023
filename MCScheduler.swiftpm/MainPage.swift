@@ -26,11 +26,11 @@ struct MainPage: View {
                 ScrollView{
                         if(appInfo.arrayRemind.count > 0){
                             ForEach(0..<appInfo.arrayRemind.count, id: \.self){i in
-                                VStack{
+                                List{
                                     Text(appInfo.arrayRemind[i])
                                     
-                                    Text(appInfo.arrayDate[i].formatted())
-                                }.frame(width: 300, height: 100).background(Color.blue).cornerRadius(8)
+                                    Text("Due Date: " + appInfo.arrayDate[i].formatted(date: .abbreviated, time: .shortened))
+                                }.frame(width: 300, height: 120).cornerRadius(15)
                             }
                         }
                     else{
@@ -38,7 +38,7 @@ struct MainPage: View {
                     }
                     
                 }
-                .padding(.top, 20.0)
+                .padding(.vertical, 20.0)
             }
         }
     }

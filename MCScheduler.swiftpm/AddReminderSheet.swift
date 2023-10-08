@@ -33,6 +33,9 @@ struct AddReminderSheet: View{
                                 appInfo.arrayRemind.append(appInfo.savedReminder);
                                 appInfo.arrayDate.append(appInfo.savedDate)
                                 dismiss()
+                                
+                                appInfo.savedReminder = ""
+                                appInfo.savedDate = Date()
                             }
                             }
                     }.alert(isPresented: $showingAlert){
@@ -40,7 +43,11 @@ struct AddReminderSheet: View{
                             if(appInfo.savedReminder != ""){
                                 appInfo.arrayRemind.append(appInfo.savedReminder);
                                 appInfo.arrayDate.append(appInfo.savedDate)
+                                
                                 dismiss()
+                                
+                                appInfo.savedReminder = ""
+                                appInfo.savedDate = Date()
                             }
                         })
                     }
@@ -60,4 +67,21 @@ class AppInformation: ObservableObject{
     @Published  var arrayDate: [Date] = [];
     @Published  var savedReminder = "";
     @Published  var savedDate = Date();
+    @Published var arrayReminders = []
+}
+
+struct makeReminder: Codable, Identifiable{
+    let id: String
+    let title: String
+    let dueDate: TimeInterval
+    let createdDate: TimeInterval
+    var isDone: Bool
+    
+    mutating func setDone(_ state: Bool){
+        isDone = state
+    }
+}
+
+func newReminder(){
+    
 }
