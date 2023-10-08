@@ -10,11 +10,11 @@ import SwiftUI
 struct CircleImage: View {
     var body: some View {
         Image("reminderAppLogo").resizable().aspectRatio(contentMode: .fit).frame(width: 100)
-            //.clipShape(Circle())
-//            .overlay{
-//                Circle().stroke(.white, lineWidth: 4)
-//            }
-//            .shadow(radius: 7)
+        //.clipShape(Circle())
+        //            .overlay{
+        //                Circle().stroke(.white, lineWidth: 4)
+        //            }
+        //            .shadow(radius: 7)
     }
 }
 
