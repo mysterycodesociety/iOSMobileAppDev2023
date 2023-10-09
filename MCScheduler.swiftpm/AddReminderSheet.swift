@@ -15,41 +15,95 @@ struct AddReminderSheet: View{
     @State private var showingAlert: Bool = false
     var body: some View{
         
-        ZStack{
+        if(appInfo.editMode){
             VStack{
-                Form{
-                    TextField("Reminder Title", text: $appInfo.savedReminder)
-                    TextField("Reminder Content", text: $appInfo.savedContent)
-                    DatePicker(selection: $appInfo.savedDate, label: {Text("Date")})
-                }
-                
-            }
-            VStack{
-                HStack{
-                    Button("Save") {
-                        if(appInfo.savedReminder != ""){
-                            showingAlert = false;
-                            let newId = UUID().uuidString
-                            let item = makeReminder(id: newId, title: appInfo.savedReminder,
-                                                    content: appInfo.savedContent,dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
-                            
-                            appInfo.arrayReminders.append(item)
-                            
-                            dismiss()
-                            
-                            appInfo.savedReminder = ""
-                            appInfo.savedContent = ""
-                            appInfo.savedDate = Date()
+                            HStack{
+                                
+                                Button("Done") {
+                                    if(appInfo.savedReminder != ""){
+                                        showingAlert = false;
+                                        let newId = UUID().uuidString
+                                        let item = makeReminder(id: newId, title: appInfo.savedReminder,
+                                                                content: appInfo.savedContent,dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
+                                        
+                                        appInfo.arrayReminders.append(item)
+                                        
+                                        dismiss()
+                                        
+                                        appInfo.savedReminder = ""
+                                        appInfo.savedContent = ""
+                                        appInfo.savedDate = Date()
+                                        appInfo.editMode.toggle()
+                                    }
+                                }
+                                .padding(4)
+                                
+                               
+                                
+                            }
                         }
+                VStack{
+                    Form{
+                        TextField("Reminder Title", text: $appInfo.savedReminder)
+                        if #available(iOS 16.0, *) {
+                            TextField("Reminder Content", text: $appInfo.savedContent, axis: .vertical)
+                        } else {
+                            TextField("Reminder Content", text: $appInfo.savedContent)
+                        }
+                        DatePicker(selection: $appInfo.savedDate, label: {Text("Due Date")})
                     }
-                    .frame(width: 115, height: 28).foregroundColor(Color.white).background(Color.blue).cornerRadius(9).padding(4)
                     
-                    Button("Cancel") { dismiss() }
-                        .frame(width: 115, height: 28).foregroundColor(Color.white).background(Color.red).cornerRadius(9).padding(5)
                 }
-            }
-            
         }
+        else{
+            VStack{
+                            HStack{
+                                Button("Cancel") {
+                                    appInfo.savedReminder = ""
+                                    appInfo.savedContent = ""
+                                    appInfo.savedDate = Date()
+                                    dismiss()
+                                }
+                                    .padding(5)
+                                
+                                Button("Save") {
+                                    if(appInfo.savedReminder != ""){
+                                        showingAlert = false;
+                                        let newId = UUID().uuidString
+                                        let item = makeReminder(id: newId, title: appInfo.savedReminder,
+                                                                content: appInfo.savedContent,dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
+                                        
+                                        appInfo.arrayReminders.append(item)
+                                        
+                                        dismiss()
+                                        
+                                        appInfo.savedReminder = ""
+                                        appInfo.savedContent = ""
+                                        appInfo.savedDate = Date()
+                                    }
+                                }
+                                .padding(4)
+                                
+                               
+                                
+                            }
+                        }
+                VStack{
+                    Form{
+                        TextField("Reminder Title", text: $appInfo.savedReminder)
+                        if #available(iOS 16.0, *) {
+                            TextField("Reminder Content", text: $appInfo.savedContent, axis: .vertical)
+                        } else {
+                            TextField("Reminder Content", text: $appInfo.savedContent)
+                        }
+                        DatePicker(selection: $appInfo.savedDate, label: {Text("Due Date")})
+                    }
+                    
+                }
+        }
+        
+            
+            
         
     }
     
@@ -61,6 +115,7 @@ class AppInformation: ObservableObject{
     @Published  var savedReminder = "";
     @Published var savedContent = "";
     @Published  var savedDate = Date();
+    @Published var editMode = false;
     @Published var arrayReminders: [makeReminder] = []{
         didSet{
             saveReminders()
@@ -90,5 +145,3 @@ struct makeReminder: Codable, Identifiable{
         isDone = state
     }
 }
-
-

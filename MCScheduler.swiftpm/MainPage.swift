@@ -3,7 +3,8 @@ import SwiftUI
 struct MainPage: View {
     
     @EnvironmentObject var appInfo: AppInformation
-    @State private var shouldPresentSheet = false;
+    @State private var shouldPresentSheet: Bool = false;
+    @State private var presentEditSheet: Bool = false;
     var body: some View {
         NavigationView {
             if(appInfo.arrayReminders.count>0){
@@ -15,7 +16,27 @@ struct MainPage: View {
                             
                             
                             VStack(alignment: .leading){
-                                Text(item.title).font(.title).fontWeight(.bold)
+                                Text(item.title).font(.title).fontWeight(.bold).swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button("DELETE"){
+                                        appInfo.arrayReminders.remove(at: i)
+                                    }.tint(Color.red)
+                                    Button("EDIT"){
+                                        appInfo.savedDate = Date(timeIntervalSince1970: item.dueDate)
+                                        appInfo.savedContent = item.content
+                                        appInfo.savedReminder = item.title
+                                        appInfo.editMode.toggle()
+                                        appInfo.arrayReminders.remove(at: i)
+                                        
+                                        shouldPresentSheet.toggle()
+                                    }.tint(Color.green).sheet(isPresented: $shouldPresentSheet) {
+                                        if #available(iOS 16.4, *) {
+                                            AddReminderSheet()
+                                                .presentationDetents([.medium]).presentationCornerRadius(15)
+                                        } else {
+                                            AddReminderSheet()
+                                        }
+                                    }
+                                }
                                 Text("Due Date: \(Date(timeIntervalSince1970: item.dueDate).formatted(date: .abbreviated, time: .shortened))").font(.headline).fontWeight(.bold).foregroundColor(Color.yellow)
                                 Text("Created Date: \(Date(timeIntervalSince1970: item.createdDate).formatted(date: .abbreviated, time: .shortened))")
                                     .font(.footnote)
@@ -35,8 +56,7 @@ struct MainPage: View {
                                     }.navigationTitle(item.title)
                                 }.foregroundColor(Color.blue)
                             }
-                        }.onDelete(perform:  appInfo.deleteReminder
-                        )
+                        }//.onDelete(perform:  appInfo.deleteReminder)
                     }
                 }.navigationTitle("Your Reminders").toolbar{
                     HStack{
