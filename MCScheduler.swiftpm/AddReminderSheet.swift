@@ -18,7 +18,7 @@ struct AddReminderSheet: View{
         if(appInfo.editMode){
             VStack{
                             HStack{
-                                
+                                Spacer()
                                 Button("Done") {
                                     if(appInfo.savedReminder != ""){
                                         showingAlert = false;
@@ -27,6 +27,7 @@ struct AddReminderSheet: View{
                                                                 content: appInfo.savedContent,dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
                                         
                                         appInfo.arrayReminders.append(item)
+                                        appInfo.showOverlay.toggle()
                                         
                                         dismiss()
                                         
@@ -36,12 +37,12 @@ struct AddReminderSheet: View{
                                         appInfo.editMode.toggle()
                                     }
                                 }
-                                .padding(4)
+                                //.padding(.leading, 300).padding(.top, 10)
                                 
                                
                                 
-                            }
-                        }
+                            }.padding(.horizontal, 15).padding(.top, 10)
+                        }.interactiveDismissDisabled(true)
                 VStack{
                     Form{
                         TextField("Reminder Title", text: $appInfo.savedReminder)
@@ -62,9 +63,11 @@ struct AddReminderSheet: View{
                                     appInfo.savedReminder = ""
                                     appInfo.savedContent = ""
                                     appInfo.savedDate = Date()
+                                    appInfo.showOverlay.toggle()
                                     dismiss()
                                 }
-                                    .padding(5)
+                               
+                                Spacer()
                                 
                                 Button("Save") {
                                     if(appInfo.savedReminder != ""){
@@ -74,6 +77,7 @@ struct AddReminderSheet: View{
                                                                 content: appInfo.savedContent,dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
                                         
                                         appInfo.arrayReminders.append(item)
+                                        appInfo.showOverlay.toggle()
                                         
                                         dismiss()
                                         
@@ -82,11 +86,11 @@ struct AddReminderSheet: View{
                                         appInfo.savedDate = Date()
                                     }
                                 }
-                                .padding(4)
+                                
                                 
                                
                                 
-                            }
+                            }.padding(.horizontal, 15).padding(.top, 10)
                         }
                 VStack{
                     Form{
@@ -116,6 +120,7 @@ class AppInformation: ObservableObject{
     @Published var savedContent = "";
     @Published  var savedDate = Date();
     @Published var editMode = false;
+    @Published  var showOverlay: Bool = false
     @Published var arrayReminders: [makeReminder] = []{
         didSet{
             saveReminders()

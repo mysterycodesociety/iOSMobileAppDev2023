@@ -5,6 +5,7 @@ struct MainPage: View {
     @EnvironmentObject var appInfo: AppInformation
     @State private var shouldPresentSheet: Bool = false;
     @State private var presentEditSheet: Bool = false;
+   
     var body: some View {
         NavigationView {
             if(appInfo.arrayReminders.count>0){
@@ -17,22 +18,26 @@ struct MainPage: View {
                             
                             VStack(alignment: .leading){
                                 Text(item.title).font(.title).fontWeight(.bold).swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button("DELETE"){
+                                    Button("Delete"){
                                         appInfo.arrayReminders.remove(at: i)
                                     }.tint(Color.red)
-                                    Button("EDIT"){
+                                    Button("Edit"){
                                         appInfo.savedDate = Date(timeIntervalSince1970: item.dueDate)
                                         appInfo.savedContent = item.content
                                         appInfo.savedReminder = item.title
                                         appInfo.editMode.toggle()
                                         appInfo.arrayReminders.remove(at: i)
                                         
+                                        appInfo.showOverlay.toggle()
                                         shouldPresentSheet.toggle()
+                                        
                                     }.tint(Color.green).sheet(isPresented: $shouldPresentSheet) {
                                         if #available(iOS 16.4, *) {
+                                            
                                             AddReminderSheet()
                                                 .presentationDetents([.medium]).presentationCornerRadius(15)
                                         } else {
+                                            
                                             AddReminderSheet()
                                         }
                                     }
@@ -60,7 +65,10 @@ struct MainPage: View {
                     }
                 }.navigationTitle("Your Reminders").toolbar{
                     HStack{
-                        Button{ shouldPresentSheet.toggle() }label: {
+                        Button{
+                            appInfo.showOverlay.toggle()
+                            shouldPresentSheet.toggle() }
+                    label: {
                             Image(systemName: "plus")
                         }
                         .sheet(isPresented: $shouldPresentSheet) {
@@ -68,6 +76,7 @@ struct MainPage: View {
                                 AddReminderSheet()
                                     .presentationDetents([.medium]).presentationCornerRadius(15)
                             } else {
+                                
                                 AddReminderSheet()
                             }
                             Spacer(minLength: 1)
@@ -83,28 +92,34 @@ struct MainPage: View {
                         Spacer(minLength: 100)
                         Text("Empty").font(.largeTitle).foregroundColor(Color.gray).opacity(0.8)
                         Spacer(minLength: 100)
-                        Button{ shouldPresentSheet.toggle() }label: {
+                        Button{ shouldPresentSheet.toggle()
+                            appInfo.showOverlay.toggle()}label: {
                             Text("Add")
                         }.frame(width: 310, height: 50).foregroundColor(Color.white).background(Color.blue).cornerRadius(50)
                             .sheet(isPresented: $shouldPresentSheet) {
                                 if #available(iOS 16.4, *) {
+                                    
                                     AddReminderSheet()
                                         .presentationDetents([.medium]).presentationCornerRadius(9)
                                 } else {
+                                   
                                     AddReminderSheet()
                                 }
                             }.shadow(color: Color.black.opacity(0.5),radius: 20,x:0,y:30)
                     }.frame(width:400)
                     
                 }.frame(width: 400).navigationTitle("Your Reminders").toolbar{
-                    Button{ shouldPresentSheet.toggle() }label: {
+                    Button{ shouldPresentSheet.toggle()
+                        appInfo.showOverlay.toggle()}label: {
                         Image(systemName: "plus")
                     }
                     .sheet(isPresented: $shouldPresentSheet) {
                         if #available(iOS 16.4, *) {
+                            
                             AddReminderSheet()
                                 .presentationDetents([.medium]).presentationCornerRadius(9)
                         } else {
+                            
                             AddReminderSheet()
                         }
                     }
@@ -112,7 +127,7 @@ struct MainPage: View {
                     getItems()
                 }
             }
-        }
+        }.blur(radius: appInfo.showOverlay ? 5:0.00000000000000000000000000000001)
         
     }
     func getItems(){
@@ -124,4 +139,3 @@ struct MainPage: View {
         self.appInfo.arrayReminders = savedItems
     }
 }
-
