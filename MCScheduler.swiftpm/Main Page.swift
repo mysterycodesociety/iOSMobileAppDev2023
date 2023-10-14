@@ -10,29 +10,21 @@ import SwiftUI
 
 struct MainPage: View {
     var body: some View{
-        ZStack {
-            Form {
-                TextField("Type your Reminder", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-                DatePicker(selection: .constant(Date()), label: {Text("Date")})
-                           }
-            HStack {
-                Button("Save") {
-                                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
-                            }
-                            .foregroundColor(Color.white)
-                            .padding()
-                            .background(Color.blue)
-                            .cornerRadius(10)
-
-                            Button("Cancel") {
-                                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
-                            }
-                            .foregroundColor(Color.white)
-                            .padding()
-                            .background(Color.red)
-                            .cornerRadius(10)
+        NavigationView {
+            ZStack {
+                Form {
+                    TextField("Enter your reminder", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                    DatePicker(selection: /*@START_MENU_TOKEN@*/.constant(Date())/*@END_MENU_TOKEN@*/, label: { /*@START_MENU_TOKEN@*/Text("Date")/*@END_MENU_TOKEN@*/ })
+                }
+                HStack {
+                    NavigationLink(destination: MainPage()){
+                        Text("Save").frame(width:100, height:75, alignment: .center).background(Color.blue).foregroundColor(Color.white).cornerRadius(99)
+                    }
+                    NavigationLink(destination: ContentView()){
+                        Text("Cancel").frame(width:100, height:75, alignment: .center).background(Color.red).foregroundColor(Color.white).cornerRadius(99)
+                    }
+                }
             }
-            
         }
     }
 }
