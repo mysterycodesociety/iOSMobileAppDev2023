@@ -15,7 +15,6 @@ struct MainPage: View {
                             i in
                             let item = appInfo.arrayReminders[i]
                             
-                            
                             VStack(alignment: .leading){
                                 Text(item.title).font(.title).fontWeight(.bold).swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     Button("Delete"){

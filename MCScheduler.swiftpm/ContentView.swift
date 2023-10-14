@@ -3,7 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @State  var isActive = false;
     @State  var size = 0.8;
-    @State  var opacity = 0.5;
+    @State var opacity = 0.5;
     var body: some View {
         if(isActive){
             MainPage().environmentObject(AppInformation());
