@@ -7,9 +7,9 @@ struct ContentView: View {
                 CircleImage()
                 
                 VStack {
-                    NavigationLink(destination: MainPage()){
+                    NavigationLink(destination: MainPage().navigationBarBackButtonHidden(true)){
                                             Text("Next").frame(width:100, height:75, alignment: .center).background(Color.black).foregroundColor(Color.white).cornerRadius(99)
-                    }
+                    }.navigationBarBackButtonHidden(true)
                 }
                 
             }
