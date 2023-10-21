@@ -24,7 +24,7 @@ struct AddReminderSheet: View{
                             showingAlert = false;
                             let newId = UUID().uuidString
                             let item = makeReminder(id: newId, title: appInfo.savedReminder,
-                                                    content: appInfo.savedContent,dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
+                                                    content: appInfo.savedContent,dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false, itemOpacity:1.0)
                             
                             appInfo.arrayReminders.append(item)
                             appInfo.showOverlay.toggle()
@@ -74,7 +74,7 @@ struct AddReminderSheet: View{
                             showingAlert = false;
                             let newId = UUID().uuidString
                             let item = makeReminder(id: newId, title: appInfo.savedReminder,
-                                                    content: appInfo.savedContent,dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false)
+                                                    content: appInfo.savedContent,dueDate: appInfo.savedDate.timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false, itemOpacity: 1.0)
                             
                             appInfo.arrayReminders.append(item)
                             appInfo.showOverlay.toggle()
@@ -144,9 +144,13 @@ struct makeReminder: Codable, Identifiable{
     let content: String
     let dueDate: TimeInterval
     let createdDate: TimeInterval
-    var isDone: Bool
+    var isDone: Bool = false
+    var itemOpacity: Double
     
     mutating func setDone(_ state: Bool){
         isDone = state
+    }
+    mutating func setOpacity(_ newOpacity: Double){
+        itemOpacity = newOpacity
     }
 }

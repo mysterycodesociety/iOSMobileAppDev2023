@@ -13,8 +13,7 @@ struct MainPage: View {
                     Section{
                         ForEach(0..<appInfo.arrayReminders.count, id:\.self){
                             i in
-                            let item = appInfo.arrayReminders[i]
-                            
+                            var item = appInfo.arrayReminders[i]
                             VStack(alignment: .leading){
                                 Text(item.title).font(.title).fontWeight(.bold).swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     Button("Delete"){
@@ -26,17 +25,14 @@ struct MainPage: View {
                                         appInfo.savedReminder = item.title
                                         appInfo.editMode.toggle()
                                         appInfo.arrayReminders.remove(at: i)
-                                        
                                         appInfo.showOverlay.toggle()
                                         shouldPresentSheet.toggle()
                                         
                                     }.tint(Color.green).sheet(isPresented: $shouldPresentSheet) {
                                         if #available(iOS 16.4, *) {
-                                            
                                             AddReminderSheet()
                                                 .presentationDetents([.medium]).presentationCornerRadius(15)
                                         } else {
-                                            
                                             AddReminderSheet()
                                         }
                                     }
@@ -57,9 +53,17 @@ struct MainPage: View {
                                             .multilineTextAlignment(.leading)
                                             .padding(.top, 6.0).frame(width: 310).fixedSize(horizontal: false, vertical: true)
                                         Spacer()
-                                    }.navigationTitle(item.title)
+                                    }.navigationTitle(item.title).toolbar{
+                                        Button("Done"){
+                                            item.setDone(true)
+                                            if(item.isDone){
+                                                item.setOpacity(0.5)
+                                                print("opacity: \(item.itemOpacity)")
+                                            }
+                                        }
+                                    }
                                 }.foregroundColor(Color.blue)
-                            }
+                            }.opacity(item.itemOpacity)
                         }//.onDelete(perform:  appInfo.deleteReminder)
                     }
                 }.navigationTitle("Your Reminders").toolbar{
