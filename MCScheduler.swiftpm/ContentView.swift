@@ -2,28 +2,29 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            CircleImage()
+        NavigationView {
             VStack {
-                Text("MCS Scheduler")
-                    .font(.largeTitle)
-                    .foregroundColor(.red)
-                HStack {
-                    Text("Your Daily assistant").font(.body)
-                }
+                CircleImage()
+                
                 VStack {
-                    Button("Next") {
-                      // some code
+                    Text("MCS Scheduler")
+                        .font(.largeTitle)
+                        .foregroundColor(.red)
+                    HStack {
+                        Text("Your Daily assistant").font(.body)
                     }
-                    .frame(width: 81, height: 30)
-                    .font(.title)
-                    .foregroundColor(Color.white)
-                    .background(Color.purple)
-                    .cornerRadius(10)
+                    
+                    VStack {
+                        NavigationLink(destination: PageTwo().navigationBarBackButtonHidden(true)){
+                            Text("Next").frame(width:80, height:30, alignment: .center).background(Color.purple).foregroundColor(Color.white).cornerRadius(10)
+                        }.navigationBarBackButtonHidden(true)
+                            // some code
+                        
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
+                .padding()
             }
-            .padding()
         }
     }
 }
