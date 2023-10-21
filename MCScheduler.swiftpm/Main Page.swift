@@ -23,6 +23,7 @@ struct MainPage: View {
                 HStack {
                     Button("Save") {
                         Saved = true
+                        
                     }.frame(width:100, height:75).background(Color.blue).foregroundColor(Color.white).cornerRadius(99)
                     
                     
