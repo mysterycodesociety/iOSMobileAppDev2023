@@ -10,17 +10,14 @@ import SwiftUI
 struct PageTwo: View {
     var body: some View {
         NavigationView {
-           
-//            @State var date = Date()
-//            @State var location: String = ""
-//            @State var reminder: String = ""
+
                 ZStack {
-                    Form {
-                        TextField("Enter Your Reminder", text: reminderObj.init().reminder)
-                        TextField("Enter Location", text: "".init().location)
-                        DatePicker("Date", selection: Date())
-                    }
                     
+                    Form {
+                               TextField("Enter your reminder", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                               TextField("Your Location", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                               DatePicker(selection: /*@START_MENU_TOKEN@*/.constant(Date())/*@END_MENU_TOKEN@*/, label: { /*@START_MENU_TOKEN@*/Text("Date")/*@END_MENU_TOKEN@*/ })
+                           }.padding(10)
                     HStack {
                         Button("Save") {
                         }
@@ -41,8 +38,8 @@ struct PageTwo: View {
     
     struct reminderObj{
         var date = Date()
-        var location: String = ""
-        var reminder: String = ""
+        var location: String
+        var reminder: String
         
     }
     
